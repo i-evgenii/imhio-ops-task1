@@ -10,30 +10,31 @@
 - ssh доступ ограничен по IP из публичных сетей
 - для первого инстанса доступ к порту 8084 из публичной сети разрешен без ограничений
 
-1. In the Cloud Console, click Activate Cloud Shell.
+## Запуск:
+1. В 'Google Cloud Console' нажать 'Activate Cloud Shell'.
 
-2. If prompted, click Continue.
+2. Нажать 'Continue'.
 
-3. Download my play-book.
+3. Загрузить и распаковать проект командами:
 ```
 wget https://github.com/i-evgenii/imhio-ops-task1/archive/main.zip
 unzip main.zip
 cd imhio-ops-task1-main/
 ```
-4. Confirm that Terraform is installed
+4. Убедиться, что 'Terraform' установлен
 > terraform --version
 
-5. Rewrite the Terraform configurations files to a canonical format and style 
+5. Обновить формат/проверить конфигурационные файлы 'Terraform'
 > terraform fmt
 
-6. Initialize Terraform
+6. Запустить 'Terraform'.
 > terraform init
 
-7. Create an execution plan
+7. Создать план.
 > terraform plan
 
-8. Apply the desired changes
+8. Применить изменения.
 > terraform apply
 
-9. Confirm the planned actions
+9. Подтвердить действия.
 > yes
