@@ -24,8 +24,8 @@ cd imhio-ops-task1-main/
 4. Убедиться, что 'Terraform' установлен
 > terraform --version
 
-5. Обновить формат/проверить конфигурационные файлы 'Terraform'
-> terraform fmt
+5. Проверить конфигурационные файлы 'Terraform'
+> terraform validate
 
 6. Запустить 'Terraform'.
 > terraform init

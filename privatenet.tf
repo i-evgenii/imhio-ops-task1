@@ -6,23 +6,32 @@ resource "google_compute_network" "privatenet" {
 
 # Create privatesubnet-us subnetwork
 resource "google_compute_subnetwork" "privatesubnet-us" {
-  name          = "privatesubnet-us"
-  region        = "us-central1"
-  network       = google_compute_network.privatenet.self_link
-  ip_cidr_range = "172.16.0.0/24"
+  name                     = "privatesubnet-us"
+  region                   = "us-central1"
+  network                  = google_compute_network.privatenet.self_link
+  ip_cidr_range            = "172.16.0.0/24"
+  private_ip_google_access = true
 }
 
-# Create a firewall rule to allow HTTP, SSH, RDP and ICMP traffic on privatenet
-resource "google_compute_firewall" "privatenet-allow-http-ssh-rdp-icmp" {
-  name    = "privatenet-allow-http-ssh-rdp-icmp"
+# Create a firewall rule to allow all traffic on privatenet
+resource "google_compute_firewall" "privatenet" {
+  name    = "privatenet-allow-all"
   network = google_compute_network.privatenet.self_link
   allow {
-    protocol = "tcp"
-    ports    = ["22", "80", "3389"]
+    protocol = "all"
   }
-  allow {
-    protocol = "icmp"
-  }
+}
+
+resource "google_compute_disk" "default" {
+  name = "data-disk"
+  type = "pd-ssd"
+  zone = "us-central1-a"
+  size = 2
+}
+
+resource "google_compute_attached_disk" "default" {
+  disk     = google_compute_disk.default.id
+  instance = "privatenet-us-vm2"
 }
 
 # Add the privatenet-us-vm instance

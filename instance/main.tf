@@ -20,4 +20,10 @@ resource "google_compute_instance" "vm_instance" {
       # Allocate a one-to-one NAT IP to the instance
     }
   }
+  network_interface {
+    network = "default"
+    access_config {
+      // Ephemeral IP
+    }
+  }
 }
