@@ -28,6 +28,7 @@ module "privatenet-us-vm1" {
   instance_name       = "privatenet-us-vm1"
   instance_zone       = "us-central1-a"
   instance_subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
+  instance_tags = "privatenet-us-vm1"
 }
 
 # Add the 2nd instance
@@ -36,6 +37,7 @@ module "privatenet-us-vm2" {
   instance_name       = "privatenet-us-vm2"
   instance_zone       = "us-central1-a"
   instance_subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
+  instance_tags = "privatenet-us-vm2"
 }
 
 # Create a disk

@@ -4,11 +4,13 @@ variable "instance_type" {
   default = "n1-standard-1"
   }
 variable "instance_subnetwork" {}
+variable "instance_tags" {}
 
 resource "google_compute_instance" "vm-instance" {
   name         = "${var.instance_name}"
   zone         = "${var.instance_zone}"
   machine_type = "${var.instance_type}"
+  tags =  "${var.instance_tags}"
   boot_disk {
     initialize_params {
       image = "centos-cloud/centos-7"
