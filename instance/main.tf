@@ -18,16 +18,13 @@ resource "google_compute_instance" "vm-instance" {
     }
   }
   network_interface {
-    subnetwork = "${var.instance_subnetwork}"
-    # access_config {
-      # Allocate a one-to-one NAT IP to the instance
-    # }
-  }
-  network_interface {
     subnetwork = "${var.instance_subnetwork2}"
     access_config {
       // Ephemeral IP
     }
+  }
+  network_interface {
+    subnetwork = "${var.instance_subnetwork}"
   }
   lifecycle {
     ignore_changes = [attached_disk]
