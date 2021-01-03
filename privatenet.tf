@@ -43,7 +43,7 @@ resource "google_compute_firewall" "publicnet-tcp8084" {
     protocol = "tcp"
     ports = ["8084"]
   }
-  target_tags = ["privatenet-us-vm2"]
+  target_tags = ["privatenet-us-vm1"]
 }
 
 # Create a firewall rule to allow ssh traffic on public
@@ -86,7 +86,7 @@ resource "google_compute_disk" "vm-data-disk" {
 }
 
 # Attach disk to VM
-#resource "google_compute_attached_disk" "vm-attached-data-disk" {
-#  disk     = google_compute_disk.vm-data-disk.id
-#  instance = "privatenet-us-vm2"
-#}
+resource "google_compute_attached_disk" "vm-attached-data-disk" {
+  disk     = google_compute_disk.vm-data-disk.id
+  instance = "privatenet-us-vm2"
+}
