@@ -24,11 +24,11 @@ cd imhio-ops-task1-main/
 4. Убедиться, что 'Terraform' установлен
 > terraform --version
 
-5. Проверить конфигурационные файлы 'Terraform'
-> terraform validate
-
-6. Запустить 'Terraform'.
+5. Запустить 'Terraform'.
 > terraform init
+
+6. Проверить конфигурационные файлы 'Terraform'
+> terraform validate
 
 7. Создать план.
 > terraform plan

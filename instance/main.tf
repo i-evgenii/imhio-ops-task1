@@ -26,4 +26,7 @@ resource "google_compute_instance" "vm_instance" {
       // Ephemeral IP
     }
   }
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
 }
