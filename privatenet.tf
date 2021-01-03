@@ -37,3 +37,15 @@ module "privatenet-us-vm2" {
   instance_zone       = "us-central1-a"
   instance_subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
 }
+
+resource "google_compute_disk" "vm-data-disk" {
+  name = "data-disk"
+  type = "pd-ssd"
+  zone = "us-central1-a"
+  size = 2
+}
+
+resource "google_compute_attached_disk" "vm-attached-data-disk" {
+  disk     = google_compute_disk.vm-data-disk.id
+  instance = "privatenet-us-vm2"
+}

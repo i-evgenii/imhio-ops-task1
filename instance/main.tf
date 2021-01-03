@@ -31,14 +31,3 @@ resource "google_compute_instance" "vm-instance" {
   }
 }
 
-resource "google_compute_disk" "vm-data-disk" {
-  name = "data-disk"
-  type = "pd-ssd"
-  zone = "us-central1-a"
-  size = 2
-}
-
-resource "google_compute_attached_disk" "vm-attached-data-disk" {
-  disk     = google_compute_disk.vm-data-disk.id
-  instance = "privatenet-us-vm2"
-}
