@@ -22,7 +22,7 @@ resource "google_compute_firewall" "privatenet" {
   }
 }
 
-# Add the privatenet-us-vm instance
+# Add the 1st instance
 module "privatenet-us-vm1" {
   source              = "./instance"
   instance_name       = "privatenet-us-vm1"
@@ -30,7 +30,7 @@ module "privatenet-us-vm1" {
   instance_subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
 }
 
-# Add the privatenet-us-vm instance
+# Add the 2nd instance
 module "privatenet-us-vm2" {
   source              = "./instance"
   instance_name       = "privatenet-us-vm2"
@@ -38,6 +38,7 @@ module "privatenet-us-vm2" {
   instance_subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
 }
 
+# Create a disk
 resource "google_compute_disk" "vm-data-disk" {
   name = "data-disk"
   type = "pd-ssd"
@@ -45,7 +46,8 @@ resource "google_compute_disk" "vm-data-disk" {
   size = 2
 }
 
-resource "google_compute_attached_disk" "vm-attached-data-disk" {
-  disk     = google_compute_disk.vm-data-disk.id
-  instance = "privatenet-us-vm2"
-}
+# Attach disk to VM
+#resource "google_compute_attached_disk" "vm-attached-data-disk" {
+#  disk     = google_compute_disk.vm-data-disk.id
+#  instance = "privatenet-us-vm2"
+#}
