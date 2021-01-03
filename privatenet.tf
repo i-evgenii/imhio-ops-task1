@@ -22,18 +22,6 @@ resource "google_compute_firewall" "privatenet" {
   }
 }
 
-resource "google_compute_disk" "default" {
-  name = "data-disk"
-  type = "pd-ssd"
-  zone = "us-central1-a"
-  size = 2
-}
-
-resource "google_compute_attached_disk" "default" {
-  disk     = google_compute_disk.default.id
-  instance = "privatenet-us-vm2"
-}
-
 # Add the privatenet-us-vm instance
 module "privatenet-us-vm1" {
   source              = "./instance"
