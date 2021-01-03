@@ -10,7 +10,7 @@ resource "google_compute_subnetwork" "privatesubnet-us" {
   region                   = "us-central1"
   network                  = google_compute_network.privatenet.self_link
   ip_cidr_range            = "172.16.0.0/24"
-  private_ip_google_access = true
+  # private_ip_google_access = true
 }
 
 # Create publicnet network
