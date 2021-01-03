@@ -52,7 +52,8 @@ resource "google_compute_firewall" "publicnet-ssh" {
   name    = "publicnet-allow-ssh"
   network = google_compute_network.publicnet.self_link
   allow {
-    protocol = "ssh"
+    protocol = "tcp"
+    ports = ["22"]
   }
   source_ranges = ["8.8.8.8/32"]
 }
