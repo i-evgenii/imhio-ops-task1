@@ -37,7 +37,7 @@ resource "google_compute_firewall" "privatenet" {
 }
 
 # Create a firewall rule to allow tcp-8084 traffic on privatenet-us-vm2
-resource "google_compute_firewall" "publicnet" {
+resource "google_compute_firewall" "publicnet-tcp8084" {
   name    = "publicnet-allow-all"
   network = google_compute_network.publicnet.self_link
   allow {
@@ -48,13 +48,13 @@ resource "google_compute_firewall" "publicnet" {
 }
 
 # Create a firewall rule to allow ssh traffic on public
-resource "google_compute_firewall" "publicnet" {
+resource "google_compute_firewall" "publicnet-ssh" {
   name    = "publicnet-allow-ssh"
   network = google_compute_network.publicnet.self_link
   allow {
     protocol = "ssh"
-    source_ranges = "8.8.8.8"
   }
+  source_ranges = ["8.8.8.8/32"]
 }
 
 # Add the 1st instance
