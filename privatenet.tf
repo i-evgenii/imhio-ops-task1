@@ -86,7 +86,7 @@ resource "google_compute_disk" "vm-data-disk" {
 }
 
 # Attach disk to VM
-resource "google_compute_attached_disk" "vm-attached-data-disk" {
-  disk     = google_compute_disk.vm-data-disk.id
-  instance = "privatenet-us-vm2"
-}
+# resource "google_compute_attached_disk" "vm-attached-data-disk" {
+#   disk     = google_compute_disk.vm-data-disk.id
+#   instance = "privatenet-us-vm2"
+# }
