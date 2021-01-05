@@ -62,21 +62,7 @@ resource "google_compute_firewall" "publicnet-ssh" {
   source_ranges = ["35.235.240.0/20","109.163.216.0/21"]
 }
 
-# Create a disk
-resource "google_compute_disk" "vm-data-disk" {
-  name = "data-disk"
-  type = "pd-ssd"
-  zone = "us-central1-a"
-  size = 2
-}
-
-# Attach disk to VM
-resource "google_compute_attached_disk" "vm-attached-data-disk" {
-  disk     = google_compute_disk.vm-data-disk.id
-  instance = "${var.vms[1]}"
-}
-
-# Add the 1st instance
+/* # Add the 1st instance
 module "privatenet-us-vm1" {
   source              = "./instance"
   instance_name       = "${var.vms[0]}"
@@ -94,5 +80,68 @@ module "privatenet-us-vm2" {
   instance_subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
   instance_subnetwork2 = google_compute_subnetwork.publicsubnet-us.self_link
   instance_tags = ["${var.vms[1]}"]
+} */
+
+resource "google_compute_instance" "vm-instance1" {
+  name         = "${var.vms[0]}"
+  zone         = "us-central1-a"
+  machine_type = "n1-standard-1"
+  tags =  ["${var.vms[0]}"]
+  boot_disk {
+    initialize_params {
+      image = "centos-cloud/centos-7"
+    }
+  }
+  network_interface {
+    subnetwork = google_compute_subnetwork.publicsubnet-us.self_link
+    access_config {
+      // Ephemeral IP
+    }
+  }
+  network_interface {
+    subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
+  }
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
 }
 
+resource "google_compute_instance" "vm-instance2" {
+  name         = "${var.vms[1]}"
+  zone         = "us-central1-a"
+  machine_type = "n1-standard-1"
+  tags =  ["${var.vms[1]}"]
+  boot_disk {
+    initialize_params {
+      image = "centos-cloud/centos-7"
+    }
+  }
+  network_interface {
+    subnetwork = google_compute_subnetwork.publicsubnet-us.self_link
+    access_config {
+      // Ephemeral IP
+    }
+  }
+  network_interface {
+    subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
+  }
+
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
+}
+
+# Create a disk
+resource "google_compute_disk" "vm-data-disk" {
+  name = "data-disk"
+  type = "pd-ssd"
+  zone = "us-central1-a"
+  size = 2
+}
+
+# Attach disk to VM
+resource "google_compute_attached_disk" "vm-attached-data-disk" {
+  disk     = google_compute_disk.vm-data-disk.id
+  #instance = "${var.vms[1]}"
+  instance = "${element(google_compute_instance.vm-instance2.*.self_link, 1)}"
+}
