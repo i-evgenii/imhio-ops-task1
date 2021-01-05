@@ -76,6 +76,7 @@ resource "google_compute_attached_disk" "vm-attached-data-disk" {
   instance = "${element(google_compute_instance.vm-instance2.*.self_link, 0)}"
 }
 
+# Create the 1st VM
 resource "google_compute_instance" "vm-instance1" {
   name         = "${var.vms[0]}"
   zone         = "us-central1-a"
@@ -100,6 +101,7 @@ resource "google_compute_instance" "vm-instance1" {
   }
 }
 
+# Create the 2nd VM
 resource "google_compute_instance" "vm-instance2" {
   name         = "${var.vms[1]}"
   zone         = "us-central1-a"
