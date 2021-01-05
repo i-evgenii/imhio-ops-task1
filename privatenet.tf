@@ -62,6 +62,20 @@ resource "google_compute_firewall" "publicnet-ssh" {
   source_ranges = ["35.235.240.0/20","109.163.216.0/21"]
 }
 
+# Create a disk
+resource "google_compute_disk" "vm-data-disk" {
+  name = "data-disk"
+  type = "pd-ssd"
+  zone = "us-central1-a"
+  size = 2
+}
+
+# Attach disk to VM
+resource "google_compute_attached_disk" "vm-attached-data-disk" {
+  disk     = google_compute_disk.vm-data-disk.id
+  instance = "${var.vms[1]}"
+}
+
 # Add the 1st instance
 module "privatenet-us-vm1" {
   source              = "./instance"
@@ -82,16 +96,3 @@ module "privatenet-us-vm2" {
   instance_tags = ["${var.vms[1]}"]
 }
 
-# Create a disk
-resource "google_compute_disk" "vm-data-disk" {
-  name = "data-disk"
-  type = "pd-ssd"
-  zone = "us-central1-a"
-  size = 2
-}
-
-# Attach disk to VM
-resource "google_compute_attached_disk" "vm-attached-data-disk" {
-  disk     = google_compute_disk.vm-data-disk.id
-  instance = "${var.vms[1]}"
-}
