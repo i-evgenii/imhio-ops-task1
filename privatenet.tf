@@ -1,3 +1,8 @@
+variable "vms" {
+  type = "list"
+  default = ["privatenet-us-vm1", "privatenet-us-vm2"]
+}
+
 # Create privatenet network
 resource "google_compute_network" "privatenet" {
   name                    = "privatenet"
@@ -43,7 +48,8 @@ resource "google_compute_firewall" "publicnet-tcp8084" {
     protocol = "tcp"
     ports = ["8084"]
   }
-  target_tags = ["privatenet-us-vm1"]
+  # target_tags = ["privatenet-us-vm1"]
+  target_tags = ["${var.vms[0]}"]
 }
 
 # Create a firewall rule to allow ssh traffic on public
@@ -54,17 +60,19 @@ resource "google_compute_firewall" "publicnet-ssh" {
     protocol = "tcp"
     ports = ["22"]
   }
-  source_ranges = ["8.8.8.8/32"]
+  source_ranges = ["35.235.240.0/20","109.163.216.0/21"]
 }
 
 # Add the 1st instance
 module "privatenet-us-vm1" {
   source              = "./instance"
-  instance_name       = "privatenet-us-vm1"
+  #instance_name       = "privatenet-us-vm1"
+  instance_name       = "${var.vms[0]}"
   instance_zone       = "us-central1-a"
   instance_subnetwork = google_compute_subnetwork.privatesubnet-us.self_link
   instance_subnetwork2 = google_compute_subnetwork.publicsubnet-us.self_link
-  instance_tags = ["privatenet-us-vm1"]
+  #instance_tags = ["privatenet-us-vm1"]
+  instance_tags = ["${var.vms[0]}"]
 }
 
 # Add the 2nd instance
